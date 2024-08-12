@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 @SpringBootTest
 class LearnMpApplicationTests {
@@ -86,5 +88,28 @@ class LearnMpApplicationTests {
         } else {
             System.out.println("User not found.");
         }
+    }
+
+    @Test
+    public void testCommon() {
+        int[] array = {7, -2, 3, 5, -9, 3, -5, -1, 6, 8, 20};
+        Arrays.stream(array)
+                .filter((int a) -> a >= 0)    //过滤
+                .filter(b -> b % 2 == 0)
+                .sorted()               //排序
+                .forEach(System.out::println);
+        int a = 1;
+        int b = -1;
+        Predicate<Integer> predicate = i -> i >= 0;
+        System.out.println(predicate.test(a));  //true
+        System.out.println(predicate.test(b));  //false
+    }
+
+    @Test
+    public void testCount() {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name", "James");
+        long count = userService.count(queryWrapper);
+        System.out.println("Count: " + count);
     }
 }
